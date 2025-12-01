@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "https://capacitorjs.com">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "https://www.apple.com">
 <plist version="1.0">
 <dict>
   <key>method</key>
   <string>ad-hoc</string>
+
   <key>signingStyle</key>
   <string>none</string>
+
   <key>compileBitcode</key>
   <false/>
+
   <key>stripSwiftSymbols</key>
   <true/>
+
   <key>provisioningProfiles</key>
   <dict/>
-</dict>
 </dict>
 </plist>
