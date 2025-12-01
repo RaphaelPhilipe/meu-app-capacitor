@@ -23,10 +23,12 @@ workflows:
             -scheme App \
             -sdk iphoneos \
             -configuration Release \
-            -allowProvisioningUpdates \
+            archive -archivePath $CM_BUILD_DIR/App.xcarchive \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            archive -archivePath $CM_BUILD_DIR/App.xcarchive
+            CODE_SIGNING_IDENTITY="" \
+            DEVELOPMENT_TEAM="" \
+            PROVISIONING_PROFILE_SPECIFIER=""
 
           xcodebuild \
             -exportArchive \
@@ -34,6 +36,9 @@ workflows:
             -exportPath $CM_BUILD_DIR/ipa \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_IDENTITY="" \
+            DEVELOPMENT_TEAM="" \
+            PROVISIONING_PROFILE_SPECIFIER="" \
             -exportOptionsPlist ios/App/exportOptions.plist
 
 
