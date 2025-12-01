@@ -1,31 +1,39 @@
 workflows:
-  ios-capacitor:
-    name: Build iOS Capacitor WebView
+  build_ios:
+    name: Build iOS WebView Capacitor
     environment:
-      vars:
-        XCODE_PROJECT: "ios/App/App.xcodeproj"
-        SCHEME: "App"
-      xcode: latest
       node: latest
+      xcode: latest
+      cocoapods: default
+
     scripts:
-      - name: Install dependencies
+      - name: Instalar dependências do projeto
+        script: npm ci
+
+      - name: Sincronizar Capacitor iOS
         script: |
-          npm install
-      - name: Fix Capacitor permissions
-        script: |
-          chmod +x node_modules/@capacitor/cli/bin/capacitor
-          chmod -R 777 ios/
           npx cap sync ios
-      - name: Build IPA
+          
+      - name: Instalar Pods iOS
         script: |
-          xcodebuild -project ios/App/App.xcodeproj \
+          cd ios/App && pod install && cd ../..
+
+      - name: Gerar IPA iOS
+        script: |
+          cd ios/App
+          xcodebuild \
+            -workspace App.xcworkspace \
             -scheme App \
             -sdk iphoneos \
             -configuration Release \
-            archive -archivePath $CM_BUILD_DIR/App.xcarchive
-          xcodebuild -exportArchive \
-            -archivePath $CM_BUILD_DIR/App.xcarchive \
-            -exportPath $CM_BUILD_DIR/ \
-            -exportOptionsPlist ios/App/exportOptions.plist
+            -allowProvisioningUpdates \
+            archive -archivePath $CM_BUILD_DIR/app.xcarchive
+
+          xcodebuild \
+            -exportArchive \
+            -archivePath $CM_BUILD_DIR/app.xcarchive \
+            -exportPath $CM_BUILD_DIR/ipa \
+            -exportOptionsPlist ExportOptions.plist
+
     artifacts:
-      - build/ipa/*.ipa
+      - $CM_BUILD_DIR/ipa/*.ipa
