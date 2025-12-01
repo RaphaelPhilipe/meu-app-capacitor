@@ -3,20 +3,9 @@
 <plist version="1.0">
 <dict>
     <key>method</key>
-    <string>debugging</string>
-
+    <string>development</string> <!-- permite exportar sem teamID -->
     <key>signingStyle</key>
-    <string>manual</string>
-
-    <key>teamID</key>
-    <string></string>
-
-    <key>signingCertificate</key>
-    <string></string>
-
-    <key>provisioningProfiles</key>
-    <dict/>
-    
+    <string>none</string> <!-- DESATIVA code signing -->
     <key>compileBitcode</key>
     <false/>
 </dict>
