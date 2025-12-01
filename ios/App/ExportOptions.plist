@@ -2,12 +2,14 @@
 <plist version="1.0">
 <dict>
   <key>method</key>
-  <string>release-testing</string>
+  <string>enterprise</string>
   <key>signingStyle</key>
   <string>manual</string>
   <key>teamID</key>
   <string></string>
   <key>compileBitcode</key>
   <false/>
+  <key>stripSwiftSymbols</key>
+  <true/>
 </dict>
 </plist>
