@@ -10,5 +10,8 @@
   <false/>
   <key>stripSwiftSymbols</key>
   <true/>
+  <key>provisioningProfiles</key>
+  <dict/>
+</dict>
 </dict>
 </plist>
