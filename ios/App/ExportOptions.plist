@@ -1,25 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
-
-  <!-- OBRIGATÓRIO para NÃO assinar -->
   <key>method</key>
-  <string>ad-hoc</string>
-
+  <string>release-testing</string>
   <key>signingStyle</key>
   <string>manual</string>
-
-  <key>provisioningProfiles</key>
-  <dict>
-    <key>com.alt.crm</key>
-    <string></string>
-  </dict>
-
-  <!-- Isso força export sem assinatura -->
   <key>teamID</key>
-  <string> </string> <!-- espaço vazio com espaço para ignorar validação -->
+  <string></string>
   <key>compileBitcode</key>
   <false/>
-
 </dict>
 </plist>
