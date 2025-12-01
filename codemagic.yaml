@@ -7,36 +7,36 @@ workflows:
       xcode: latest
       cocoapods: default
 
-scripts:
-  - name: Install dependencies
-    script: npm ci
+    scripts:
+      - name: Install dependencies
+        script: npm ci
 
-  - name: Capacitor iOS Sync
-    script: npx cap sync ios
+      - name: Capacitor iOS Sync
+        script: npx cap sync ios
 
-  - name: Install CocoaPods
-    script: cd ios/App && pod install && cd ../..
+      - name: Install CocoaPods
+        script: cd ios/App && pod install && cd ../..
 
-  - name: Build IPA (Unsigned Test)
-    script: |
-      xcodebuild \
-        -workspace ios/App/App.xcworkspace \
-        -scheme App \
-        -sdk iphoneos \
-        -configuration Release \
-        -destination generic/platform=iOS \
-        CODE_SIGNING_REQUIRED=NO \
-        CODE_SIGNING_ALLOWED=NO \
-        CODE_SIGNING_IDENTITY="" \
-        archive -archivePath $CM_BUILD_DIR/App.xcarchive
+      - name: Build IPA (Unsigned Test)
+        script: |
+          xcodebuild \
+            -workspace ios/App/App.xcworkspace \
+            -scheme App \
+            -sdk iphoneos \
+            -configuration Release \
+            -destination generic/platform=iOS \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_IDENTITY="" \
+            archive -archivePath $CM_BUILD_DIR/App.xcarchive
 
-      xcodebuild \
-        -exportArchive \
-        -archivePath $CM_BUILD_DIR/App.xcarchive \
-        -exportPath $CM_BUILD_DIR/ipa \
-        -exportOptionsPlist ios/App/exportOptions.plist \
-        CODE_SIGNING_ALLOWED=NO \
-        CODE_SIGNING_REQUIRED=NO
+          xcodebuild \
+            -exportArchive \
+            -archivePath $CM_BUILD_DIR/App.xcarchive \
+            -exportPath $CM_BUILD_DIR/ipa \
+            -ExportOptionsPlist ios/App/ExportOptions.plist \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO
 
     artifacts:
       - $CM_BUILD_DIR/ipa/*.ipa
