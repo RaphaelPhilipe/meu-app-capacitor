@@ -33,7 +33,7 @@ workflows:
             -exportPath $CM_BUILD_DIR/ipa \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            -exportOptionsPlist ios/App/Info.plist
+            -exportOptionsPlist ios/App/exportOptions.plist
 
     artifacts:
       - $CM_BUILD_DIR/ipa/*.ipa
