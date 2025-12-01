@@ -1,0 +1,9 @@
+{
+  "appId": "com.alt.crm",
+  "appName": "CRM ALT",
+  "webDir": "public", 
+  "server": {
+    "url": "https://sigevalt.com",
+    "cleartext": false
+  }
+}
