@@ -1,35 +1,33 @@
 workflows:
   ios_webview:
-    name: Build iOS – Capacitor WebView Only
+    name: Build iOS WebView Capacitor Only
     environment:
       node: latest
       xcode: latest
       cocoapods: default
 
     scripts:
-      - name: Install NPM Dependencies
+      - name: Install dependencies
         script: npm ci
 
       - name: Capacitor iOS Sync
         script: npx cap sync ios
 
-      - name: Install CocoaPods
-        script: cd ios/App && pod install && cd ../..
-
       - name: Build IPA (Unsigned Test)
         script: |
+          cd ios/App/App
           xcodebuild \
-            -workspace ios/App/App.xcworkspace \
+            -project App.xcodeproj \
             -scheme App \
             -sdk iphoneos \
             -configuration Release \
-            archive -archivePath $CM_BUILD_DIR/app.xcarchive \
             CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO \
+            archive -archivePath $CM_BUILD_DIR/App.xcarchive
 
           xcodebuild \
             -exportArchive \
-            -archivePath $CM_BUILD_DIR/app.xcarchive \
+            -archivePath $CM_BUILD_DIR/App.xcarchive \
             -exportPath $CM_BUILD_DIR/ipa \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
