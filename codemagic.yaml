@@ -7,9 +7,6 @@ workflows:
       xcode: latest
       cocoapods: default
       java: 17
-      android:
-        build:
-          gradle: yes
 
     scripts:
       - name: Install dependencies
