@@ -18,14 +18,19 @@ workflows:
 
       - name: Build IPA (Unsigned Test)
         script: |
+          export CODE_SIGNING_ALLOWED=NO
+          export CODE_SIGNING_REQUIRED=NO
+          export CODE_SIGNING_IDENTITY=""
+
           xcodebuild \
             -workspace ios/App/App.xcworkspace \
             -scheme App \
             -sdk iphoneos \
             -configuration Release \
             -destination generic/platform=iOS \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=$CODE_SIGNING_REQUIRED \
+            CODE_SIGNING_ALLOWED=$CODE_SIGNING_ALLOWED \
+            CODE_SIGNING_IDENTITY="$CODE_SIGNING_IDENTITY" \
             archive -archivePath $CM_BUILD_DIR/App.xcarchive
 
           xcodebuild \
@@ -33,8 +38,9 @@ workflows:
             -archivePath $CM_BUILD_DIR/App.xcarchive \
             -exportPath $CM_BUILD_DIR/ipa \
             -exportOptionsPlist ios/App/ExportOptions.plist \
-            CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGNING_REQUIRED=NO
+            CODE_SIGNING_ALLOWED=$CODE_SIGNING_ALLOWED \
+            CODE_SIGNING_REQUIRED=$CODE_SIGNING_REQUIRED \
+            CODE_SIGNING_IDENTITY="$CODE_SIGNING_IDENTITY"
 
     artifacts:
       - $CM_BUILD_DIR/ipa/*.ipa
