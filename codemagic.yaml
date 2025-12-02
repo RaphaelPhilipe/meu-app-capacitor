@@ -1,32 +1,20 @@
 workflows:
   ios_webview:
-    name: Build iOS + Android – Capacitor Test
-
+    name: Build iOS – Capacitor WebView Test
     environment:
       node: latest
       xcode: latest
       cocoapods: default
-      java: 17
 
     scripts:
       - name: Install dependencies
         script: npm ci
 
-      - name: Capacitor Sync (iOS + Android)
-        script: |
-          npx cap sync ios
-          npx cap sync android
+      - name: Capacitor iOS Sync
+        script: npx cap sync ios
 
       - name: Install CocoaPods
-        script: |
-          cd ios/App
-          pod install
-          cd ../..
-
-      - name: Build APK Debug
-        script: |
-          cd android
-          ./gradlew assembleDebug
+        script: cd ios/App && pod install && cd ../..
 
       - name: Build IPA (Unsigned Test)
         script: |
@@ -34,7 +22,6 @@ workflows:
           export CODE_SIGNING_ALLOWED=NO
           export CODE_SIGNING_REQUIRED=NO
           export CODE_SIGNING_IDENTITY=""
-
           ARCHIVE_PATH="$CM_BUILD_DIR/App.xcarchive"
           IPA_DIR="$CM_BUILD_DIR/ipa"
           PAYLOAD_DIR="$CM_BUILD_DIR/Payload"
@@ -52,12 +39,10 @@ workflows:
 
           rm -rf "$IPA_DIR" "$PAYLOAD_DIR"
           mkdir -p "$IPA_DIR" "$PAYLOAD_DIR"
-
           cp -R "$ARCHIVE_PATH/Products/Applications/App.app" "$PAYLOAD_DIR/"
           cd "$CM_BUILD_DIR"
           /usr/bin/zip -r "$IPA_DIR/App-unsigned.ipa" Payload
           rm -rf "$PAYLOAD_DIR"
 
     artifacts:
-      - android/app/build/outputs/apk/debug/*.apk
       - $CM_BUILD_DIR/ipa/*.ipa
