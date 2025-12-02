@@ -1,7 +1,6 @@
 workflows:
   ios_webview:
     name: Build iOS – Capacitor WebView Test
-
     environment:
       node: latest
       xcode: latest
@@ -27,14 +26,13 @@ workflows:
             -destination generic/platform=iOS \
             CODE_SIGNING_REQUIRED=NO \
             CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGNING_IDENTITY="" \
             archive -archivePath $CM_BUILD_DIR/App.xcarchive
 
           xcodebuild \
             -exportArchive \
             -archivePath $CM_BUILD_DIR/App.xcarchive \
             -exportPath $CM_BUILD_DIR/ipa \
-            -ExportOptionsPlist ios/App/ExportOptions.plist \
+            -exportOptionsPlist ios/App/ExportOptions.plist \
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO
 
