@@ -18,9 +18,13 @@ workflows:
 
       - name: Build IPA (Unsigned Test)
         script: |
+          set -e
           export CODE_SIGNING_ALLOWED=NO
           export CODE_SIGNING_REQUIRED=NO
           export CODE_SIGNING_IDENTITY=""
+          ARCHIVE_PATH="$CM_BUILD_DIR/App.xcarchive"
+          IPA_DIR="$CM_BUILD_DIR/ipa"
+          PAYLOAD_DIR="$CM_BUILD_DIR/Payload"
 
           xcodebuild \
             -workspace ios/App/App.xcworkspace \
@@ -31,16 +35,14 @@ workflows:
             CODE_SIGNING_REQUIRED=$CODE_SIGNING_REQUIRED \
             CODE_SIGNING_ALLOWED=$CODE_SIGNING_ALLOWED \
             CODE_SIGNING_IDENTITY="$CODE_SIGNING_IDENTITY" \
-            archive -archivePath $CM_BUILD_DIR/App.xcarchive
+            archive -archivePath "$ARCHIVE_PATH"
 
-          xcodebuild \
-            -exportArchive \
-            -archivePath $CM_BUILD_DIR/App.xcarchive \
-            -exportPath $CM_BUILD_DIR/ipa \
-            -exportOptionsPlist ios/App/ExportOptions.plist \
-            CODE_SIGNING_ALLOWED=$CODE_SIGNING_ALLOWED \
-            CODE_SIGNING_REQUIRED=$CODE_SIGNING_REQUIRED \
-            CODE_SIGNING_IDENTITY="$CODE_SIGNING_IDENTITY"
+          rm -rf "$IPA_DIR" "$PAYLOAD_DIR"
+          mkdir -p "$IPA_DIR" "$PAYLOAD_DIR"
+          cp -R "$ARCHIVE_PATH/Products/Applications/App.app" "$PAYLOAD_DIR/"
+          cd "$CM_BUILD_DIR"
+          /usr/bin/zip -r "$IPA_DIR/App-unsigned.ipa" Payload
+          rm -rf "$PAYLOAD_DIR"
 
     artifacts:
       - $CM_BUILD_DIR/ipa/*.ipa

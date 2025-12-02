@@ -15,7 +15,7 @@
     <string>manual</string>
 
     <key>teamID</key>
-    <string>0000000000</string>
+    <string></string>
 
     <key>provisioningProfiles</key>
     <dict/>
